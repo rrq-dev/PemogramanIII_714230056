@@ -7,7 +7,6 @@ import (
 	"inibackend/model"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func InsertMahasiswa(ctx context.Context, mhs model.Mahasiswa) (insertedID interface{}, err error) {
@@ -34,18 +33,15 @@ func InsertMahasiswa(ctx context.Context, mhs model.Mahasiswa) (insertedID inter
 	return insertResult.InsertedID, nil
 }
 
-func GetMahasiswaByNPM(ctx context.Context, npm int) (mhs model.Mahasiswa, err error) {
+func GetMahasiswaByNPM(ctx context.Context, npm int) (mhs *model.Mahasiswa, err error) {
 	mahasiswa := config.MongoConnect(config.DBName).Collection(config.MahasiswaCollection)
 	filter := bson.M{"npm": npm}
 	err = mahasiswa.FindOne(ctx, filter).Decode(&mhs)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return model.Mahasiswa{}, nil
-		}
 		fmt.Printf("GetMahasiswaByNPM: %v\n", err)
-		return model.Mahasiswa{}, err
+		return
 	}
-	return mhs, nil
+	return
 }
 
 func GetAllMahasiswa(ctx context.Context) ([]model.Mahasiswa, error) {
@@ -94,7 +90,7 @@ func DeleteMahasiswa(ctx context.Context, npm int) (deletedNPM int, err error) {
 		return 0, err
 	}
 	if result.DeletedCount == 0 {
-		return 0, fmt.Errorf("tidak ada data yang dihapus untuk NPM %v", npm)
+		return 0, fmt.Errorf("tidak ada data yang dihapus untuk NPM %d", npm)
 	}
 	return npm, nil
 }

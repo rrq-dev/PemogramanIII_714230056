@@ -11,7 +11,6 @@ import (
 var ctx = context.TODO()
 
 func TestInsertMahasiswa(t *testing.T) {
-
 	mhs := model.Mahasiswa{
 		Nama:     "Test Mahasiswa",
 		NPM:      9999999999,
@@ -30,7 +29,7 @@ func TestInsertMahasiswa(t *testing.T) {
 
 	insertedID, err := repository.InsertMahasiswa(ctx, mhs)
 	if insertedID == nil {
-		//t.Error("InsertMahasiswa failed, insertedID is nil")
+		// t.Error("InsertMahasiswa failed, insertedID is nil")
 		fmt.Printf("Inserted failed: %v", err)
 	} else {
 		fmt.Printf("Inserted Mahasiswa with ID: %v", insertedID)
@@ -39,9 +38,9 @@ func TestInsertMahasiswa(t *testing.T) {
 
 func TestGetMahasiswaByNPM(t *testing.T) {
 	npm := 9999999999 // NPM yang digunakan pada TestInsertMahasiswa
-	mhs, err := repository.GetMahasiswaByNPM(ctx, npm)
+	mhs, _ := repository.GetMahasiswaByNPM(ctx, npm)
 	if mhs.NPM != npm {
-		t.Errorf("Expected NPM %v", err)
+		t.Errorf("Expected NPM %v, got %v", npm, mhs.NPM)
 	} else {
 		fmt.Printf("Retrieved Mahasiswa: %+v", mhs)
 	}
@@ -50,10 +49,10 @@ func TestGetMahasiswaByNPM(t *testing.T) {
 func TestGetAllMahasiswa(t *testing.T) {
 	all, err := repository.GetAllMahasiswa(ctx)
 	if len(all) == 0 {
-		//t.Error("No mahasiswa found")
+		// t.Error("No mahasiswa found")
 		fmt.Printf("No mahasiswa found: %v", err)
 	} else {
-		fmt.Printf("Total mahasiswa: %d", len(all))
+		fmt.Printf("Total mahasiswa: %v", len(all))
 		fmt.Print(all)
 	}
 }
