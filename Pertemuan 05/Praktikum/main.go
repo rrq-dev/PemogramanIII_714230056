@@ -26,8 +26,9 @@ func main() {
 	app.Use(logger.New())
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     strings.Join(config.GetAllowedOrigins(), ","),
+		AllowHeaders:    "Origin, Content-Type, Accept, Authorization",
 		AllowCredentials: true,
-		AllowMethods:     "GET,POST,PUT,DELETE",
+		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
 	}))
 
 	router.SetupRoutes(app)
