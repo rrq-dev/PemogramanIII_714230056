@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import axios from "axios";
-
+import { getAllMahasiswa } from "../services/mahasiswaService"; // Pastikan path ini sesuai dengan struktur project kamu
 export const useMahasiswa = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,9 +10,9 @@ export const useMahasiswa = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get("http://localhost:6969/api/mahasiswa");
-      setUsers(response.data.data || []); // ambil .data array, kalau ada
-      console.log("Fetched mahasiswa:", response.data.data);
+      const data = await getAllMahasiswa(); // ✅ Pakai service
+      setUsers(data);
+      console.log("Fetched mahasiswa:", data);
     } catch (err) {
       console.error("Error fetching mahasiswa:", err);
       setError(err);
