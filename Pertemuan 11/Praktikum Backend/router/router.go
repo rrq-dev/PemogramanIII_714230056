@@ -5,6 +5,7 @@ import (
 	"inibackend/handler"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
 )
 
 func SetupRoutes(app *fiber.App) {
@@ -25,6 +26,9 @@ func SetupRoutes(app *fiber.App) {
 
 	// Route untuk menghapus data mahasiswa berdasarkan NPM
 	api.Delete("/mahasiswa/:npm", handler.DeleteMahasiswa)
+
+	// Dokumentasi swagger
+	app.Get("/docs/*", swagger.HandlerDefault)
 
 	app.Post("/register", handler.Register)
 	app.Post("/login", handler.Login)

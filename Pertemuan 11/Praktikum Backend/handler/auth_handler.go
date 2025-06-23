@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	pwd "inibackend/config/middleware"
+	_ "inibackend/docs"
 	"inibackend/model"
 	"inibackend/pkg"
 	"inibackend/repository"
@@ -10,6 +11,18 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Login godoc
+// @Summary Login User
+// @Description Melakukan proses login dan mengembalikan token PASETO jika username dan password valid.
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param credentials body model.LoginRequest true "Login credentials (username dan password)"
+// @Success 200 {object} model.LoginResponse "Login success"
+// @Failure 400 "Invalid body"
+// @Failure 401 "Username not found or Wrong password"
+// @Failure 500 "Failed to generate token"
+// @Router /login [post]
 func Login(c *fiber.Ctx) error {
 	var req model.UserLogin
 
@@ -40,6 +53,18 @@ func Login(c *fiber.Ctx) error {
 	})
 }
 
+// Register godoc
+// @Summary Register User
+// @Description Melakukan proses registrasi dan mengembalikan token PASETO jika data registrasi valid.
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param register body model.UserLogin true "Register data (username, email, password)"
+// @Success 201 {object} model.LoginResponse "Register success"
+// @Failure 400 "Invalid body"
+// @Failure 409 "Username or email already exists"
+// @Failure 500 "Failed to generate token"
+// @Router /register [post]
 func Register(c *fiber.Ctx) error {
 	var req model.UserLogin
 
